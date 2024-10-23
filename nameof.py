@@ -11,13 +11,18 @@ def nameof(_):
 @lru_cache()
 def _nameof(code, offset):
     instructions = list(dis.get_instructions(code))
-    (current_instruction_index, current_instruction), = (
-        (index, instruction)
-        for index, instruction in enumerate(instructions)
-        if instruction.offset == offset
+    (current_instruction_index, current_instruction) = max(
+        (
+            (index, instruction)
+            for index, instruction in enumerate(instructions)
+            if instruction.offset <= offset
+        ),
+        key=lambda index_instruction: index_instruction[1].offset
     )
-    assert current_instruction.opname in ("CALL_FUNCTION", "CALL_METHOD"), "Did you call nameof in a weird way?"
+    assert current_instruction.opname in ("CALL", "CALL_FUNCTION", "CALL_METHOD"), "Did you call nameof in a weird way?"
     name_instruction = instructions[current_instruction_index - 1]
+    if name_instruction.opname == "PRECALL":  # python 3.11
+        name_instruction = instructions[current_instruction_index - 2]
     assert name_instruction.opname.startswith("LOAD_"), "Argument must be a variable or attribute"
     return name_instruction.argrepr
 
