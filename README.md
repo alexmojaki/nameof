@@ -1,5 +1,7 @@
 # nameof
 
+***This was a toy project, I recommend using [varname](https://github.com/pwwang/python-varname?tab=readme-ov-file#getting-variable-names-directly-using-nameof) instead.***
+
 [![Build Status](https://travis-ci.org/alexmojaki/nameof.svg?branch=master)](https://travis-ci.org/alexmojaki/nameof) [![Supports Python versions 3.4+, including PyPy](https://img.shields.io/pypi/pyversions/nameof.svg)](https://pypi.python.org/pypi/nameof)
 
 Get the name of a variable or attribute, as in C#.
